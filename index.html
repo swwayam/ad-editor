@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css
+    ">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+        main {
+            padding: 40px;
+            margin: 20px;
+            display: flex;
+            justify-content: space-evenly;
+            align-items: center;
+
+        }
+
+        input {
+            /* display: block; */
+            width: 500px;
+            padding: 10px;
+        }
+
+        button {
+            display: block;
+            padding: 10px 30px;
+            margin-top: 20px;
+            border: 1px solid black;
+            background: #fff;
+
+        }
+
+        label {
+            /* display: inline-block; */
+            margin: 10px 0;
+        }
+
+        .div{
+            width: 500px;
+        }
+
+        @media (max-width: 1150px) {
+            main {
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+
+            }
+
+            iframe {
+                margin-top: 20px;
+            }
+
+        }
+    </style>
+</head>
+
+<body>
+    <!--Navbar-->
+    <nav class="navbar bg-dark border-bottom border-body" data-bs-theme="dark">
+        <div class="container-fluid">
+            <a class="navbar-brand">ADs Editor</a>
+            <div>
+                <button class="btn btn-outline-success mx-2" type="submit">Image</button>
+                <button class="btn btn-outline-success" type="submit">About</button>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <div>
+            <div class="div">
+                <label for="">Heading</label>
+                <br>
+                <input type="text" class="inp" id="heading" name="heading" oninput="changeHeading()">
+                <input type="text" id="heading-size" oninput="headingSizeChange()">
+            </div>
+            <div class="div">
+                <label for="">Sub-Heading</label>
+                <br>
+                <input type="text" name="sub-heading" id="sub-heading" oninput="changeSubHeading()">
+                <input type="text" id="sub-heading-size" oninput="subHeadingSizeChange()">
+
+            </div>
+
+            <div class="div">
+                <label for="">Btn Text</label>
+                <br>
+                <input type="text" name="btn-txt" id="btn" oninput="changeButtonText()">
+                <input type="text" id="btn-size" oninput="btnSizeChange()">
+
+            </div>
+
+            <!--  <iframe src="./template.html" id="iframe1" width="300" height="250" frameborder="0"></iframe> -->
+
+            <button onclick="btn()">Reset</button>
+        </div>
+
+        <div>
+            <iframe src="./template.html" width="400" id="iframe" height="350" frameborder="0"></iframe>
+        </div>
+
+
+    </main>
+
+
+
+
+
+    <script>
+        const heading = document.getElementById("heading")
+        const headingSize = document.getElementById("heading-size")
+
+        const subHeading = document.getElementById("sub-heading")
+        const subHeadingSize = document.getElementById("sub-heading-size")
+
+
+        const btn = document.getElementById("btn")
+        const btnSize = document.getElementById("btn-size")
+
+        const iframe = document.getElementById("iframe")
+        let editableFrame;
+
+        let elements = []
+        const data = []
+
+        iframe.onload = function (event) {
+            editableFrame = iframe.contentDocument.body;
+            elements = editableFrame.querySelectorAll('[id^="ad_"]');
+
+
+            elements.forEach(element => {
+                let obj = {
+                    element: element.id.split("_")[1],
+                    value: element.innerHTML,
+                    size: window.getComputedStyle(element).fontSize
+                }
+
+                data.push(obj)
+            });
+
+            console.log(data);
+            setData()
+
+        };
+
+
+        function setData() {
+            for (const el of data) {
+                if (el.element == "heading") {
+                    heading.value = el.value
+                    headingSize.value = el.size
+                } else if (el.element == "sub-heading") {
+                    subHeading.value = el.value
+                    subHeadingSize.value = el.size
+                } else if (el.element == "btn") {
+                    btn.value = el.value
+                    btnSize.value = el.size    
+                }
+            }
+        }
+
+
+        function changeHeading() {
+            editableFrame.querySelector("#ad_heading").innerHTML = heading.value
+        }
+
+        function headingSizeChange(){
+            console.log(headingSize.value);
+            editableFrame.querySelector("#ad_heading").style.fontSize = headingSize.value
+        }
+
+        function changeSubHeading() {
+            editableFrame.querySelector("#ad_sub-heading").innerHTML = subHeading.value
+        }
+
+        function subHeadingSizeChange(){
+            editableFrame.querySelector("#ad_sub-heading").style.fontSize = subHeadingSize.value
+        }
+
+        function changeButtonText() {
+            editableFrame.querySelector("#ad_btn").innerHTML = btn.value
+        }
+
+        function btnSizeChange(){
+            editableFrame.querySelector("#ad_btn").style.fontSize = btnSize.value
+        }
+
+
+
+        console.log(name);
+
+        function editText() {
+            console.log("chagne");
+            editableFrame.querySelector("#text").innerHTML = input.value
+        }
+
+    </script>
+</body>
+
+</html>
