@@ -1,2 +1,2 @@
-tabs: ['index.html', 'index.js']
+tabs: ['index.html']
 terminals: ['static-server -p 1337 --no-cache']
